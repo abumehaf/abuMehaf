@@ -21,7 +21,7 @@
 <script>
   async function loadFile() {
     try {
-      const response = await fetch('data.txt'); // تأكد من وجود ملف data.txt في نفس مجلد HTML أو قم بتعديل المسار
+      const response = await fetch('data.txt');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -29,6 +29,7 @@
       return text;
     } catch (error) {
       console.error('حدث خطأ أثناء تحميل الملف:', error);
+      alert('فشل تحميل الملف. تأكد من وجود ملف data.txt في نفس المجلد.');
       return null;
     }
   }
@@ -50,8 +51,6 @@
       } else {
         alert('الملف فارغ.');
       }
-    } else {
-      alert('فشل تحميل الملف.');
     }
   }
 </script>
