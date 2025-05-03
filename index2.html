@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>لوحة مفاتيح عربية افتراضية</title>
+    <title>لوحة مفاتيح عربية تفاعلية</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,36 +11,43 @@
         }
 
         .text-inputs {
-            margin-bottom: 20px;
+            margin-bottom: 30px; /* زيادة المسافة */
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            width: 300px;
+            width: 400px; /* زيادة العرض */
         }
 
         .text-inputs input[type="text"] {
-            padding: 10px;
-            margin-bottom: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+            padding: 15px; /* زيادة الحشو */
+            margin-bottom: 10px; /* زيادة الهامش */
+            border: 2px solid #ccc; /* جعل الحدود أوضح */
+            border-radius: 8px; /* زيادة تقويس الزوايا */
+            font-size: 24px; /* زيادة حجم الخط */
         }
 
         .keyboard {
             display: grid;
-            grid-template-columns: repeat(10, 1fr); /* يمكنك تعديل عدد الأعمدة حسب الرغبة */
-            gap: 5px;
-            width: 500px; /* يمكنك تعديل عرض لوحة المفاتيح حسب الرغبة */
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* تحسين التجاوب وتحديد الحد الأدنى لعرض الزر */
+            gap: 8px; /* زيادة المسافة بين الأزرار */
+            width: 90%; /* جعل عرض لوحة المفاتيح أكثر مرونة */
+            max-width: 600px; /* تحديد أقصى عرض للوحة المفاتيح */
             direction: rtl; /* لترتيب الأحرف من اليمين إلى اليسار */
         }
 
         .keyboard button {
-            padding: 15px;
-            font-size: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 20px; /* زيادة الحشو */
+            font-size: 28px; /* زيادة حجم الخط */
+            border: 2px solid #aaa; /* جعل الحدود أوضح */
+            border-radius: 8px; /* زيادة تقويس الزوايا */
             cursor: pointer;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8; /* لون خلفية أفتح */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* إضافة ظل خفيف */
+            min-width: 60px; /* تحديد الحد الأدنى لعرض الزر */
+            min-height: 60px; /* تحديد الحد الأدنى لارتفاع الزر */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .keyboard button:hover {
@@ -49,11 +56,11 @@
     </style>
 </head>
 <body>
-    <h1>لوحة مفاتيح عربية افتراضية</h1>
+    <h1>لوحة مفاتيح عربية تفاعلية</h1>
 
     <div class="text-inputs">
-        <input type="text" id="textInput1" placeholder="أدخل النص هنا">
-        <input type="text" id="textInput2" placeholder="مربع نص آخر (غير فعال حاليًا)">
+        <input type="text" id="questionBox" placeholder="السؤال" readonly>
+        <input type="text" id="answerBox" placeholder="الجواب" readonly>
     </div>
 
     <div class="keyboard" id="arabicKeyboard">
@@ -89,16 +96,56 @@
     </div>
 
     <script>
-        const textInput1 = document.getElementById('textInput1');
+        const questionBox = document.getElementById('questionBox');
+        const answerBox = document.getElementById('answerBox');
         const arabicKeyboard = document.getElementById('arabicKeyboard');
         const buttons = arabicKeyboard.querySelectorAll('button');
+        let data = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch('data.txt');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                // تخطي السطر الأول (العناوين)
+                data = lines.slice(1).map(line => {
+                    const parts = line.split(',');
+                    return {
+                        حرف: parts[1] ? parts[1].trim() : '',
+                        سؤال: parts[2] ? parts[2].trim() : '',
+                        جواب: parts[3] ? parts[3].trim() : ''
+                    };
+                });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('فشل تحميل البيانات. تأكد من وجود ملف data.txt في نفس المجلد.');
+            }
+        }
+
+        function displayRandomQuestionAnswer(char) {
+            const matchingItems = data.filter(item => item.جواب.startsWith(char));
+            if (matchingItems.length > 0) {
+                const randomIndex = Math.floor(Math.random() * matchingItems.length);
+                questionBox.value = matchingItems[randomIndex].سؤال;
+                answerBox.value = matchingItems[randomIndex].جواب;
+            } else {
+                questionBox.value = '';
+                answerBox.value = `لا يوجد سؤال أو جواب يبدأ بالحرف "${char}"`;
+            }
+        }
 
         buttons.forEach(button => {
             button.addEventListener('click', function() {
                 const char = this.getAttribute('data-char');
-                textInput1.value += char;
+                displayRandomQuestionAnswer(char);
             });
         });
+
+        // تحميل البيانات عند تحميل الصفحة
+        loadData();
     </script>
 </body>
 </html>
