@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>عرض بيانات من ملف TXT</title>
+<style>
+  body { font-family: Arial, sans-serif; }
+  .container { margin: 20px; }
+  textarea { width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; }
+  button { padding: 10px 20px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>عرض السؤال والجواب</h2>
+  <textarea id="questionBox" placeholder="السؤال" readonly></textarea>
+  <textarea id="answerBox" placeholder="الجواب" readonly></textarea>
+  <button onclick="displayFirstRow()">عرض الصف الأول</button>
+</div>
+
+<script>
+  async function loadFile() {
+    try {
+      const response = await fetch('data.txt'); // تأكد من وجود ملف data.txt في نفس مجلد HTML أو قم بتعديل المسار
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const text = await response.text();
+      return text;
+    } catch (error) {
+      console.error('حدث خطأ أثناء تحميل الملف:', error);
+      return null;
+    }
+  }
+
+  async function displayFirstRow() {
+    const fileContent = await loadFile();
+    if (fileContent) {
+      const lines = fileContent.split('\n');
+      if (lines.length > 0) {
+        const firstRow = lines[0].split(',');
+        if (firstRow.length >= 4) {
+          const question = firstRow[2].trim();
+          const answer = firstRow[3].trim();
+          document.getElementById('questionBox').value = question;
+          document.getElementById('answerBox').value = answer;
+        } else {
+          alert('الصف الأول في الملف غير منظم بالشكل المطلوب (يجب أن يحتوي على الأقل على 4 حقول مفصولة بفواصل).');
+        }
+      } else {
+        alert('الملف فارغ.');
+      }
+    } else {
+      alert('فشل تحميل الملف.');
+    }
+  }
+</script>
+
+</body>
+</html>
