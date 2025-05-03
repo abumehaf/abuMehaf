@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء قاعدة بيانات وطباعة سؤال</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>قاعدة بيانات محلية</h1>
+    <button onclick="printFourthQuestion()">طباعة السؤال الرابع</button>
+    <div id="output"></div>
+
+    <script>
+        var db = openDatabase('myDatabase', '1.0', 'قاعدة بيانات الأسئلة', 2 * 1024 * 1024);
+        var outputDiv = document.getElementById('output');
+
+        db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS questions (رقم INTEGER UNIQUE, حرف TEXT, سؤال TEXT, جواب TEXT)');
+
+            var initialData = [
+                { رقم: 1, حرف: 'أ', سؤال: 'ما هو اسم عاصمة المملكة العربية السعودية؟', جواب: 'الرياض' },
+                { رقم: 3, حرف: 'أ', سؤال: 'ما هو أول حرف في الأبجدية العربية؟', جواب: 'ألف' },
+                { رقم: 5, حرف: 'أ', سؤال: 'أي من الكواكب يسمى الكوكب الأحمر؟', جواب: 'المريخ' }
+            ];
+
+            initialData.forEach(function (item) {
+                tx.executeSql('INSERT OR IGNORE INTO questions (رقم, حرف, سؤال, جواب) VALUES (?, ?, ?, ?)', [item.رقم, item.حرف, item.سؤال, item.جواب]);
+            });
+        });
+
+        function printFourthQuestion() {
+            db.transaction(function (tx) {
+                tx.executeSql('SELECT سؤال FROM questions ORDER BY رقم LIMIT 1 OFFSET 3', [], function (tx, results) {
+                    if (results.rows.length > 0) {
+                        outputDiv.textContent = 'السؤال الرابع: ' + results.rows.item(0).سؤال;
+                    } else {
+                        outputDiv.textContent = 'لا يوجد سؤال رابع في قاعدة البيانات.';
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
