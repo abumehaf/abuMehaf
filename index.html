@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>عرض حرف من ملف TXT</title>
+<title>عرض بيانات من ملف TXT</title>
 <style>
   body { font-family: Arial, sans-serif; }
   .container { margin: 20px; }
@@ -12,15 +12,16 @@
 <body>
 
 <div class="container">
-  <h2>عرض حرف</h2>
-  <textarea id="outputBox" placeholder="الحرف" readonly></textarea>
-  <button onclick="displayFirstChar()">عرض الحرف الأول</button>
+  <h2>عرض السؤال والجواب</h2>
+  <textarea id="questionBox" placeholder="السؤال" readonly></textarea>
+  <textarea id="answerBox" placeholder="الجواب" readonly></textarea>
+  <button onclick="displayFirstRow()">عرض الصف الأول</button>
 </div>
 
 <script>
   async function loadFile() {
     try {
-      const response = await fetch('data.txt');
+      const response = await fetch('data.txt'); // تأكد من وجود ملف data.txt في نفس مجلد HTML أو قم بتعديل المسار
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -28,20 +29,29 @@
       return text;
     } catch (error) {
       console.error('حدث خطأ أثناء تحميل الملف:', error);
-      alert('فشل تحميل الملف. تأكد من وجود ملف data.txt في نفس المجلد.');
       return null;
     }
   }
 
-  async function displayFirstChar() {
+  async function displayFirstRow() {
     const fileContent = await loadFile();
     if (fileContent) {
-      const firstLine = fileContent.trim();
-      if (firstLine.length > 0) {
-        document.getElementById('outputBox').value = firstLine.charAt(0);
+      const lines = fileContent.split('\n');
+      if (lines.length > 0) {
+        const firstRow = lines[0].split(',');
+        if (firstRow.length >= 4) {
+          const question = firstRow[2].trim();
+          const answer = firstRow[3].trim();
+          document.getElementById('questionBox').value = question;
+          document.getElementById('answerBox').value = answer;
+        } else {
+          alert('الصف الأول في الملف غير منظم بالشكل المطلوب (يجب أن يحتوي على الأقل على 4 حقول مفصولة بفواصل).');
+        }
       } else {
         alert('الملف فارغ.');
       }
+    } else {
+      alert('فشل تحميل الملف.');
     }
   }
 </script>
