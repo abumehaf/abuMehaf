@@ -1,58 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>لوحة مفاتيح عربية تفاعلية</title>
+    <title>لوحة مفاتيح عربية تفاعلية - ملء الصفحة</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh; /* اجعل ارتفاع الجسم على الأقل بارتفاع الشاشة */
+            margin: 0; /* إزالة الهوامش الافتراضية للجسم */
+            background-color: #f4f4f4; /* لون خلفية لطيف */
+        }
+
+        h1 {
+            margin-top: 40px;
+            margin-bottom: 30px;
+            font-size: 36px;
+            color: #333;
         }
 
         .text-inputs {
-            margin-bottom: 40px; /* زيادة الهامش السفلي */
+            margin-bottom: 40px;
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            width: 600px; /* زيادة العرض للضعف تقريبًا */
+            width: 80%; /* جعل عرض مربعات النص يشغل جزءًا أكبر */
+            max-width: 600px;
         }
 
         .text-inputs input[type="text"] {
-            padding: 30px; /* زيادة الحشو للضعف */
-            margin-bottom: 20px; /* زيادة الهامش السفلي */
-            border: 3px solid #ccc; /* جعل الحدود أكثر سمكًا */
-            border-radius: 10px; /* زيادة تقويس الزوايا */
-            font-size: 32px; /* زيادة حجم الخط للضعف */
-            text-align: center; /* توسيط النص */
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 3px solid #bbb;
+            border-radius: 10px;
+            font-size: 32px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .keyboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* زيادة الحد الأدنى لعرض الزر */
-            gap: 16px; /* زيادة المسافة بين الأزرار */
-            width: 90%;
-            max-width: 800px; /* زيادة أقصى عرض للوحة المفاتيح */
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* زيادة الحد الأدنى لعرض الزر */
+            gap: 16px;
+            width: 95%; /* جعل عرض لوحة المفاتيح يشغل معظم الصفحة */
+            max-width: 900px;
             direction: rtl;
+            padding: 20px; /* إضافة بعض الحشو حول لوحة المفاتيح */
+            background-color: #e0e0e0; /* لون خلفية للوحة المفاتيح */
+            border-radius: 10px;
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1);
         }
 
         .keyboard button {
-            padding: 40px; /* زيادة الحشو للضعف */
-            font-size: 40px; /* زيادة حجم الخط للضعف */
-            border: 3px solid #aaa; /* جعل الحدود أكثر سمكًا */
-            border-radius: 10px; /* زيادة تقويس الزوايا */
+            padding: 40px;
+            font-size: 48px; /* جعل الخط أكبر وأكثر وضوحًا */
+            border: none; /* إزالة الحدود الافتراضية للأزرار */
+            border-radius: 10px;
             cursor: pointer;
-            background-color: #f8f8f8;
-            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1);
-            min-width: 100px; /* زيادة الحد الأدنى لعرض الزر */
-            min-height: 100px; /* زيادة الحد الأدنى لارتفاع الزر */
+            background-color: #fff; /* لون خلفية الأزرار أبيض */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+            min-height: 120px;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background-color 0.3s ease; /* إضافة انتقال سلس لتأثير التمرير */
         }
 
         .keyboard button:hover {
-            background-color: #e0e0e0;
+            background-color: #ddd;
         }
     </style>
 </head>
