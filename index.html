@@ -37,7 +37,7 @@
             font-size: 32px;
             text-align: center;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
-              white-space: pre-wrap; /* يسمح للنص بالالتفاف على أسطر متعددة */
+            white-space: pre-wrap; /* يسمح للنص بالالتفاف على أسطر متعددة */
         }
 
         #answerBox {
@@ -48,6 +48,7 @@
             font-size: 32px;
             text-align: center;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+            white-space: pre-wrap; /* يسمح للنص بالالتفاف على أسطر متعددة */
         }
 
         .keyboard {
@@ -91,6 +92,7 @@
         <input type="text" id="questionBox" placeholder="السؤال" readonly>
         <input type="text" id="answerBox" placeholder="الجواب" readonly>
     </div>
+
     <div class="keyboard" id="arabicKeyboard">
         <button data-char="أ">أ</button>
         <button data-char="ب">ب</button>
@@ -121,7 +123,6 @@
         <button data-char="و">و</button>
         <button data-char="ي">ي</button>
     </div>
-
 
     <script>
         const questionBox = document.getElementById('questionBox');
