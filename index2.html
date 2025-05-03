@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>لوحة مفاتيح عربية افتراضية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .text-inputs {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: 300px;
+        }
+
+        .text-inputs input[type="text"] {
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* يمكنك تعديل عدد الأعمدة حسب الرغبة */
+            gap: 5px;
+            width: 500px; /* يمكنك تعديل عرض لوحة المفاتيح حسب الرغبة */
+            direction: rtl; /* لترتيب الأحرف من اليمين إلى اليسار */
+        }
+
+        .keyboard button {
+            padding: 15px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+
+        .keyboard button:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <h1>لوحة مفاتيح عربية افتراضية</h1>
+
+    <div class="text-inputs">
+        <input type="text" id="textInput1" placeholder="أدخل النص هنا">
+        <input type="text" id="textInput2" placeholder="مربع نص آخر (غير فعال حاليًا)">
+    </div>
+
+    <div class="keyboard" id="arabicKeyboard">
+        <button data-char="ض">ض</button>
+        <button data-char="ص">ص</button>
+        <button data-char="ث">ث</button>
+        <button data-char="ق">ق</button>
+        <button data-char="ف">ف</button>
+        <button data-char="غ">غ</button>
+        <button data-char="ع">ع</button>
+        <button data-char="هـ">ه</button>
+        <button data-char="خ">خ</button>
+        <button data-char="ح">ح</button>
+        <button data-char="ج">ج</button>
+        <button data-char="د">د</button>
+        <button data-char="ذ">ذ</button>
+        <button data-char="ر">ر</button>
+        <button data-char="ز">ز</button>
+        <button data-char="س">س</button>
+        <button data-char="ش">ش</button>
+        <button data-char="ط">ط</button>
+        <button data-char="ك">ك</button>
+        <button data-char="م">م</button>
+        <button data-char="ن">ن</button>
+        <button data-char="ت">ت</button>
+        <button data-char="أ">أ</button>
+        <button data-char="ة">ة</button>
+        <button data-char="و">و</button>
+        <button data-char="ي">ي</button>
+        <button data-char="ا">ا</button>
+        <button data-char="ل">ل</button>
+        <button data-char="ب">ب</button>
+    </div>
+
+    <script>
+        const textInput1 = document.getElementById('textInput1');
+        const arabicKeyboard = document.getElementById('arabicKeyboard');
+        const buttons = arabicKeyboard.querySelectorAll('button');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const char = this.getAttribute('data-char');
+                textInput1.value += char;
+            });
+        });
+    </script>
+</body>
+</html>
