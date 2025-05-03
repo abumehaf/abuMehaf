@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>لوحة مفاتيح عربية افتراضية</title>
+    <title>لوحة مفاتيح عربية تفاعلية</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,11 +49,11 @@
     </style>
 </head>
 <body>
-    <h1>لوحة مفاتيح عربية افتراضية</h1>
+    <h1>لوحة مفاتيح عربية تفاعلية</h1>
 
     <div class="text-inputs">
-        <input type="text" id="textInput1" placeholder="أدخل النص هنا">
-        <input type="text" id="textInput2" placeholder="مربع نص آخر (غير فعال حاليًا)">
+        <input type="text" id="questionBox" placeholder="السؤال" readonly>
+        <input type="text" id="answerBox" placeholder="الجواب" readonly>
     </div>
 
     <div class="keyboard" id="arabicKeyboard">
@@ -64,7 +64,7 @@
         <button data-char="ف">ف</button>
         <button data-char="غ">غ</button>
         <button data-char="ع">ع</button>
-        <button data-char="ه">ه</button>
+        <button data-char="هـ">ه</button>
         <button data-char="خ">خ</button>
         <button data-char="ح">ح</button>
         <button data-char="ج">ج</button>
@@ -80,10 +80,6 @@
         <button data-char="ن">ن</button>
         <button data-char="ت">ت</button>
         <button data-char="أ">أ</button>
-        <button data-char="ء">ء</button>
-        <button data-char="ؤ">ؤ</button>
-        <button data-char="ئ">ئ</button>
-        <button data-char="ى">ى</button>
         <button data-char="ة">ة</button>
         <button data-char="و">و</button>
         <button data-char="ي">ي</button>
@@ -93,16 +89,56 @@
     </div>
 
     <script>
-        const textInput1 = document.getElementById('textInput1');
+        const questionBox = document.getElementById('questionBox');
+        const answerBox = document.getElementById('answerBox');
         const arabicKeyboard = document.getElementById('arabicKeyboard');
         const buttons = arabicKeyboard.querySelectorAll('button');
+        let data = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch('data.txt');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                // تخطي السطر الأول (العناوين)
+                data = lines.slice(1).map(line => {
+                    const parts = line.split(',');
+                    return {
+                        حرف: parts[1] ? parts[1].trim() : '',
+                        سؤال: parts[2] ? parts[2].trim() : '',
+                        جواب: parts[3] ? parts[3].trim() : ''
+                    };
+                });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                alert('فشل تحميل البيانات. تأكد من وجود ملف data.txt في نفس المجلد.');
+            }
+        }
+
+        function displayRandomQuestionAnswer(char) {
+            const matchingItems = data.filter(item => item.جواب.startsWith(char));
+            if (matchingItems.length > 0) {
+                const randomIndex = Math.floor(Math.random() * matchingItems.length);
+                questionBox.value = matchingItems[randomIndex].سؤال;
+                answerBox.value = matchingItems[randomIndex].جواب;
+            } else {
+                questionBox.value = '';
+                answerBox.value = `لا يوجد سؤال أو جواب يبدأ بالحرف "${char}"`;
+            }
+        }
 
         buttons.forEach(button => {
             button.addEventListener('click', function() {
                 const char = this.getAttribute('data-char');
-                textInput1.value += char;
+                displayRandomQuestionAnswer(char);
             });
         });
+
+        // تحميل البيانات عند تحميل الصفحة
+        loadData();
     </script>
 </body>
 </html>
