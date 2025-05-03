@@ -30,7 +30,7 @@
         }
 
         #questionBox {
-            padding: 30px; /* تقليل الحشو الرأسي */
+            padding: 30px;
             margin-bottom: 20px;
             border: 3px solid #bbb;
             border-radius: 10px;
@@ -39,8 +39,8 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
             white-space: pre-wrap;
             overflow-wrap: break-word;
-            resize: none; /* لمنع تغيير حجم مربع النص بواسطة المستخدم */
-            height: auto; /* السماح بتمدد الارتفاع حسب المحتوى */
+            resize: none;
+            height: auto;
         }
 
         #answerBox {
@@ -122,7 +122,7 @@
         <button data-char="ل">ل</button>
         <button data-char="م">م</button>
         <button data-char="ن">ن</button>
-        <button data-char="هـ">ه</button>
+        <button data-char="ه">هـ</button>
         <button data-char="و">و</button>
         <button data-char="ي">ي</button>
     </div>
@@ -133,6 +133,7 @@
         const arabicKeyboard = document.getElementById('arabicKeyboard');
         const buttons = arabicKeyboard.querySelectorAll('button');
         let data = [];
+        const displayedQuestionNumbers = new Set(); // مجموعة لتتبع أرقام الأسئلة المعروضة
 
         async function loadData() {
             try {
@@ -146,6 +147,7 @@
                 data = lines.slice(1).map(line => {
                     const parts = line.split(',');
                     return {
+                        رقم: parts[0] ? parts[0].trim() : '', // افتراض أن الرقم هو الحقل الأول
                         حرف: parts[1] ? parts[1].trim() : '',
                         سؤال: parts[2] ? parts[2].trim() : '',
                         جواب: parts[3] ? parts[3].trim() : ''
@@ -160,9 +162,26 @@
         function displayRandomQuestionAnswer(char) {
             const matchingItems = data.filter(item => item.جواب.startsWith(char));
             if (matchingItems.length > 0) {
-                const randomIndex = Math.floor(Math.random() * matchingItems.length);
-                questionBox.value = matchingItems[randomIndex].سؤال;
-                answerBox.value = matchingItems[randomIndex].جواب;
+                let attempts = 0;
+                const maxAttempts = matchingItems.length * 2; // محاولة عدد محدود من المرات
+                let randomItem;
+
+                while (attempts < maxAttempts) {
+                    const randomIndex = Math.floor(Math.random() * matchingItems.length);
+                    randomItem = matchingItems[randomIndex];
+                    if (!displayedQuestionNumbers.has(randomItem.رقم)) {
+                        displayedQuestionNumbers.add(randomItem.رقم);
+                        questionBox.value = randomItem.سؤال;
+                        answerBox.value = randomItem.جواب;
+                        return;
+                    }
+                    attempts++;
+                }
+
+                // إذا لم يتم العثور على سؤال جديد بعد عدة محاولات
+                questionBox.value = '';
+                answerBox.value = `تم عرض جميع الأسئلة التي تبدأ بالحرف "${char}" حاليًا.`;
+                // يمكنك هنا إضافة منطق لإعادة تعيين displayedQuestionNumbers إذا كنت تريد السماح بعرض الأسئلة مرة أخرى
             } else {
                 questionBox.value = '';
                 answerBox.value = `لا يوجد سؤال أو جواب يبدأ بالحرف "${char}"`;
