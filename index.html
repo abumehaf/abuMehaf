@@ -29,8 +29,8 @@
             max-width: 600px;
         }
 
-        #questionBox { /* استهداف مربع نص السؤال بشكل خاص */
-            padding: 90px 30px; /* زيادة الحشو الرأسي للضعف (تقريبًا) */
+        #questionBox {
+            padding: 90px 30px;
             margin-bottom: 20px;
             border: 3px solid #bbb;
             border-radius: 10px;
@@ -39,7 +39,7 @@
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        #answerBox { /* استهداف مربع نص الإجابة بشكل خاص */
+        #answerBox {
             padding: 30px;
             margin-bottom: 20px;
             border: 3px solid #bbb;
@@ -90,38 +90,37 @@
         <input type="text" id="questionBox" placeholder="السؤال" readonly>
         <input type="text" id="answerBox" placeholder="الجواب" readonly>
     </div>
-
     <div class="keyboard" id="arabicKeyboard">
-        <button data-char="ض">ض</button>
-        <button data-char="ص">ص</button>
+        <button data-char="أ">أ</button>
+        <button data-char="ب">ب</button>
+        <button data-char="ت">ت</button>
         <button data-char="ث">ث</button>
-        <button data-char="ق">ق</button>
-        <button data-char="ف">ف</button>
-        <button data-char="غ">غ</button>
-        <button data-char="ع">ع</button>
-        <button data-char="هـ">ه</button>
-        <button data-char="خ">خ</button>
-        <button data-char="ح">ح</button>
         <button data-char="ج">ج</button>
+        <button data-char="ح">ح</button>
+        <button data-char="خ">خ</button>
         <button data-char="د">د</button>
         <button data-char="ذ">ذ</button>
         <button data-char="ر">ر</button>
         <button data-char="ز">ز</button>
         <button data-char="س">س</button>
         <button data-char="ش">ش</button>
+        <button data-char="ص">ص</button>
+        <button data-char="ض">ض</button>
         <button data-char="ط">ط</button>
         <button data-char="ظ">ظ</button>
+        <button data-char="ع">ع</button>
+        <button data-char="غ">غ</button>
+        <button data-char="ف">ف</button>
+        <button data-char="ق">ق</button>
         <button data-char="ك">ك</button>
+        <button data-char="ل">ل</button>
         <button data-char="م">م</button>
         <button data-char="ن">ن</button>
-        <button data-char="ت">ت</button>
-        <button data-char="أ">أ</button>
-        <button data-char="ة">ة</button>
+        <button data-char="هـ">ه</button>
         <button data-char="و">و</button>
         <button data-char="ي">ي</button>
-                <button data-char="ل">ل</button>
-        <button data-char="ب">ب</button>
     </div>
+
 
     <script>
         const questionBox = document.getElementById('questionBox');
@@ -172,7 +171,7 @@
             });
         });
 
-        // تحميل البيانات عند تحميل الصفحة
+        // تحميل البيانات عند تحميل الصفحة مرة واحدة
         loadData();
     </script>
 </body>
