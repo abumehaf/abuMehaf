@@ -11,40 +11,41 @@
         }
 
         .text-inputs {
-            margin-bottom: 30px; /* زيادة المسافة */
+            margin-bottom: 40px; /* زيادة الهامش السفلي */
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            width: 400px; /* زيادة العرض */
+            width: 600px; /* زيادة العرض للضعف تقريبًا */
         }
 
         .text-inputs input[type="text"] {
-            padding: 15px; /* زيادة الحشو */
-            margin-bottom: 10px; /* زيادة الهامش */
-            border: 2px solid #ccc; /* جعل الحدود أوضح */
-            border-radius: 8px; /* زيادة تقويس الزوايا */
-            font-size: 24px; /* زيادة حجم الخط */
+            padding: 30px; /* زيادة الحشو للضعف */
+            margin-bottom: 20px; /* زيادة الهامش السفلي */
+            border: 3px solid #ccc; /* جعل الحدود أكثر سمكًا */
+            border-radius: 10px; /* زيادة تقويس الزوايا */
+            font-size: 32px; /* زيادة حجم الخط للضعف */
+            text-align: center; /* توسيط النص */
         }
 
         .keyboard {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* تحسين التجاوب وتحديد الحد الأدنى لعرض الزر */
-            gap: 8px; /* زيادة المسافة بين الأزرار */
-            width: 90%; /* جعل عرض لوحة المفاتيح أكثر مرونة */
-            max-width: 600px; /* تحديد أقصى عرض للوحة المفاتيح */
-            direction: rtl; /* لترتيب الأحرف من اليمين إلى اليسار */
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* زيادة الحد الأدنى لعرض الزر */
+            gap: 16px; /* زيادة المسافة بين الأزرار */
+            width: 90%;
+            max-width: 800px; /* زيادة أقصى عرض للوحة المفاتيح */
+            direction: rtl;
         }
 
         .keyboard button {
-            padding: 20px; /* زيادة الحشو */
-            font-size: 28px; /* زيادة حجم الخط */
-            border: 2px solid #aaa; /* جعل الحدود أوضح */
-            border-radius: 8px; /* زيادة تقويس الزوايا */
+            padding: 40px; /* زيادة الحشو للضعف */
+            font-size: 40px; /* زيادة حجم الخط للضعف */
+            border: 3px solid #aaa; /* جعل الحدود أكثر سمكًا */
+            border-radius: 10px; /* زيادة تقويس الزوايا */
             cursor: pointer;
-            background-color: #f8f8f8; /* لون خلفية أفتح */
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* إضافة ظل خفيف */
-            min-width: 60px; /* تحديد الحد الأدنى لعرض الزر */
-            min-height: 60px; /* تحديد الحد الأدنى لارتفاع الزر */
+            background-color: #f8f8f8;
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1);
+            min-width: 100px; /* زيادة الحد الأدنى لعرض الزر */
+            min-height: 100px; /* زيادة الحد الأدنى لارتفاع الزر */
             display: flex;
             justify-content: center;
             align-items: center;
